@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
-from flask_cors import CORS  # Importera flask-cors
+from flask_cors import CORS  
 import yfinance as yf
+import os  # Importera os för att läsa miljövariabler
 
 app = Flask(__name__)
 
@@ -22,4 +23,7 @@ def get_stock_info(ticker):
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Läsa in port från miljövariabeln PORT, annars använd 5000 som standard
+    port = int(os.environ.get("PORT", 5000))
+    # Kör applikationen på alla nätverksgränssnitt, inte bara localhost
+    app.run(host='0.0.0.0', port=port)
