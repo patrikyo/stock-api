@@ -15,9 +15,20 @@ def get_stock_info(ticker):
         info = stock.info
         company_name = info.get("longName", "N/A")
         current_price = info.get("currentPrice", "N/A")
+
+        # Hämta dagens kursdata
+        hist = stock.history(period="1d")
+        if not hist.empty:
+            open_price = hist['Open'][0]
+            percent_change = ((current_price - open_price) / open_price) * 100
+        else:
+            open_price = "N/A"
+            percent_change = "N/A"
+
         return jsonify({
             "companyName": company_name,
-            "currentPrice": current_price
+            "currentPrice": current_price,
+            "percentChange": percent_change
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
