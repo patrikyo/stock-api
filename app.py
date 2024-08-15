@@ -22,14 +22,19 @@ def get_stock_info(ticker):
             open_price = hist['Open'][0]
             percent_change = ((current_price - open_price) / open_price) * 100
             percent_change = round(percent_change, 2)  # Begränsar till 3 decimaler
+
+            # Hämta tidsstämpeln för den senaste datapunkten
+            last_timestamp = hist.index[-1].strftime('%Y-%m-%d %H:%M:%S')
         else:
             open_price = "N/A"
             percent_change = "N/A"
+            last_timestamp = "N/A"
 
         return jsonify({
             "companyName": company_name,
             "currentPrice": current_price,
-            "percentChange": percent_change
+            "percentChange": percent_change,
+            "lastUpdated": last_timestamp  # Lägg till tidsstämpeln i responsen
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
