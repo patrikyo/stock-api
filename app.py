@@ -21,7 +21,7 @@ def get_stock_info(ticker):
         if not hist.empty:
             open_price = hist['Open'][0]
             percent_change = ((current_price - open_price) / open_price) * 100
-            percent_change = round(percent_change, 3)  # Begränsar till 3 decimaler
+            percent_change = round(percent_change, 2)  # Begränsar till 3 decimaler
         else:
             open_price = "N/A"
             percent_change = "N/A"
