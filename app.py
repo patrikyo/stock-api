@@ -16,14 +16,14 @@ def get_stock_info(ticker):
         company_name = info.get("longName", "N/A")
         current_price = info.get("currentPrice", "N/A")
 
-        # Hämta dagens kursdata
-        hist = stock.history(period="1d")
+        # Hämta dagens kursdata med 1-minuters intervall
+        hist = stock.history(period="1d", interval="1m")
         if not hist.empty:
             open_price = hist['Open'][0]
             percent_change = ((current_price - open_price) / open_price) * 100
-            percent_change = round(percent_change, 2)  # Begränsar till 3 decimaler
+            percent_change = round(percent_change, 2)  # Begränsar till 2 decimaler
 
-            # Hämta tidsstämpeln för den senaste datapunkten
+            # Hämta tidsstämpeln för den senaste datapunkten med mer precision
             last_timestamp = hist.index[-1].strftime('%Y-%m-%d %H:%M:%S')
         else:
             open_price = "N/A"
