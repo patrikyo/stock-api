@@ -5,6 +5,7 @@ from datetime import datetime
 import pytz
 import requests
 from bs4 import BeautifulSoup
+import os
 
 app = Flask(__name__)
 
@@ -132,4 +133,5 @@ def get_stock_metrics(ticker):
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)  # Lägg till detta för att köra din Flask-app
+    port = int(os.environ.get('PORT', 8080))  # Hämta port från miljövariabel eller använd 8080 som standard
+    app.run(host='0.0.0.0', port=port, debug=True)  # Bind till 0.0.0.0 för att lyssna på alla nätverksgränssnitt
